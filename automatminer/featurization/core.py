@@ -5,6 +5,10 @@ Classes for automatic featurization and core featurizer functionality.
 import os
 import math
 
+import sys
+import pprint
+import psutil
+
 import pandas as pd
 from pymatgen import Composition
 from matminer.featurizers.conversions import StrToComposition, DictToObject, \
@@ -401,6 +405,10 @@ class AutoFeaturizer(DFTransformer, LoggableMixin):
                             ignore_errors=self.ignore_errors,
                             multiindex=self.multiindex,
                             inplace=False)
+                        print("GETSIZEOF:", float(sys.getsizeof(self))/1e9, "GB")
+                        print("GETSIZEOF_DF:", float(sys.getsizeof(df))/1e9, "GB")
+                        print("VIRTUAL MEM USED: ")
+                        pprint.pprint(dict(psutil.virtual_memory()._asdict()))
                     if self.drop_inputs:
                         df = df.drop(columns=[featurizer_type])
                 else:
